@@ -60,4 +60,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
 gem 'faker'
+gem 'rails-html-sanitizer', '~> 1.0.4'
+gem  'loofah', '~> 2.2.1'
 gem "aws-sdk-s3", require: false
