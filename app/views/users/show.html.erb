@@ -1,10 +1,24 @@
-<%= image_tag 'default.png', width: '100px' %>
-<br>
-<%= @user.username %>
-<br>
-<%= @user.full_name %>
-<br>
-<%= @user.location %>
-<br>
-<br>
-<%= @user.bio %>
+<div class="left_side">
+  <%= image_tag url_for(@user.avatar), width: '100px' %>
+  <br>
+  @<%= @user.username %>
+  <br>
+  <%= @user.full_name %>
+  <br>
+  <%= @user.location %>
+  <br>
+  <br>
+  <%= @user.bio %>
+</div>
+
+<div class="right_side">
+  <% @messages.each do |message| %>
+    <div class="tweet">
+      <%= image_tag url_for(message.user.avatar), width: "20px" %>
+      <p class="tweet-body"><%=
+      message.body %></p>
+
+      <p class="tweet-date">Posted: <%= time_ago_in_words(message.created_at) %></p>
+    </div>
+  <% end %>
+<div>

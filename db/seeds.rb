@@ -11,18 +11,37 @@ generate_users = User.where(generated: true)
 generate_users.destroy_all
 
 puts'Creating 20 new users. '
+20.times do |i|
+    puts "t\tuser #{i}"
+    u = User.create!(
+      username: Faker::Internet.user_name,
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      location: "#{Faker::Address.city}, #{Faker::Address.city}",
+      bio: Faker::Lorem.paragraph,
+      password: "123456",
+      password_confirmation: "123456",
+      email: Faker::Internet.email,
+      generated: true,
+  )
+u.avatar.attach(io: File.open(Rails.root.join('app', 'assets', 'avatars', "myAvatar-#{i + 1}.png")),
+  filename: "myavatar-#{i + 1}.png")
+#puts "\tmessages"
 20.times do
   putc "."
-  User.create!(
-    username: Faker::Internet.user_name,
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    location: "#{Faker::Address.city}, #{Faker::Address.city}",
-    bio: Faker::Lorem.paragraph,
-    password: "123456",
-    password_confirmation: "123456",
-    email: Faker::Internet.email,
-    generated: true,
-  )
+  u.messages.create! body: Faker::HarryPotter.quote, created_at: Faker::Date.between(2.months.ago, Time.now)
 end
+
+end
+
+u = User.first
+u.following = []
+3.times do
+  id = User.all.sample.id
+  unless id == u.id
+    u.following << id
+  end
+end
+u.save
+
 puts "\nDone"

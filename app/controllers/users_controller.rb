@@ -6,7 +6,15 @@ class UsersController < ApplicationController
   end
 
   def show
-    @users = Users.find(params[:id])
+    @user = User.find(params[:id])
+
+    if current_user == @user
+      following_ids = current_user.following
+      following_ids << current_user.id
+      @messages = Message.where(user_id: current_user.following)
+    else
+      @messages = @user.messages
+    end
   end
 
 end
